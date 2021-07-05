@@ -142,4 +142,13 @@
       <Name>ThinkGeoMapRepo</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MapIconSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MapIconSmall%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MapIconSmall%403x.png" />
+  </ItemGroup>
 </Project>
