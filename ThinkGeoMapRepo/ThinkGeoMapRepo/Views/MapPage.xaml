@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:ThinkGeoMapRepo.ViewModels"
+             xmlns:xamarinforms="clr-namespace:ThinkGeo.UI.XamarinForms;assembly=ThinkGeo.UI.XamarinForms"
              x:Class="ThinkGeoMapRepo.Views.MapPage"
-             Title="ThinkGeo Map">
+             x:DataType="viewmodels:MapPageViewModel"
+             Title="{Binding Title}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <xamarinforms:MapView x:Name="mapView"
+                              VerticalOptions="FillAndExpand" />
     </ContentPage.Content>
 </ContentPage>
