@@ -22,6 +22,9 @@ namespace ThinkGeoMapRepo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Mapbox.MGLAccountManager.AccessToken = ThinkGeoMapRepo.Services.MapBoxService.AccessToken;
+            new Naxam.Controls.Mapbox.Platform.iOS.MapViewRenderer();
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

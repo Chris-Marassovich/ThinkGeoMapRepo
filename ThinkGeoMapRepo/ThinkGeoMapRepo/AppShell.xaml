@@ -89,6 +89,10 @@
                       Title="Map"
                       Icon="MapIconSmall.png"
                       ContentTemplate="{DataTemplate local:MapPage}" />
+        <ShellContent Route="MapBoxPage"
+                      Title="MapBox"
+                      Icon="MapIconSmall.png"
+                      ContentTemplate="{DataTemplate local:MapBoxPage}" />
         <ShellContent Route="ItemsPage" 
                       Title="Browse"
                       Icon="icon_feed.png"

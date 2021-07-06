@@ -14,6 +14,9 @@ namespace ThinkGeoMapRepo.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Com.Mapbox.Mapboxsdk.Mapbox.GetInstance(this, ThinkGeoMapRepo.Services.MapBoxService.AccessToken);
+            Com.Mapbox.Mapboxsdk.Mapbox.Telemetry.SetDebugLoggingEnabled(true);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

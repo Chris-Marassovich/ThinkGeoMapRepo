@@ -133,6 +133,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Naxam.Mapbox.Forms">
+      <Version>1.0.8.4</Version>
+    </PackageReference>
     <PackageReference Include="ThinkGeo.UI.XamarinForms.iOS">
       <Version>12.3.10</Version>
     </PackageReference>
