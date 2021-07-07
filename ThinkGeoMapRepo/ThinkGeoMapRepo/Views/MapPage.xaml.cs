@@ -44,7 +44,7 @@ namespace ThinkGeoMapRepo.Views
             // Update the layer's features from any previous mode
             UpdateShapeLayerFeatures(shapesLayer, shapesOverlay);
 
-            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to naviage the map normally
+            // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
             mapView.TrackOverlay.TrackMode = TrackMode.None;
 
             instructions.Text = "Navigation Mode - The default map state. Allows you to pan and zoom the map with touch controls.";
