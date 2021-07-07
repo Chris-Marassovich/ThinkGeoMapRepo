@@ -20,7 +20,11 @@ namespace ThinkGeoMapRepo.ViewModels
         private object MapLock = new object();
 
         //The Overlays and Layers (in their Hierarchy)
+        public const string ShapesOverlay = nameof(ShapesOverlay);
+        public const string ShapesLayer = nameof(ShapesLayer);
+
         public const string JobsPopupOverlay = nameof(JobsPopupOverlay);
+
         public const string JobsOverlay = nameof(JobsOverlay);
         public const string LocationLayer = nameof(LocationLayer);
         public const string TeamMemberDeviceLayer = nameof(TeamMemberDeviceLayer);
@@ -60,6 +64,7 @@ namespace ThinkGeoMapRepo.ViewModels
                     //end OSM overlay impl
 
                     // Init the various Overlays and their Layers
+                    ShapeOverlayInitialise();
                     PopupOverlayInitialise();
                     JobsOverlayInitialise();
 
@@ -70,6 +75,22 @@ namespace ThinkGeoMapRepo.ViewModels
                     MapInitialised = true;
                 }
             }
+        }
+
+        private void ShapeOverlayInitialise()
+        {
+            LayerOverlay layerOverlay = new LayerOverlay();
+            // Create the layer that will store the drawn shapes
+            InMemoryFeatureLayer featureLayer = new InMemoryFeatureLayer();
+
+            // Add styles for the layer
+            featureLayer.ZoomLevelSet.ZoomLevel01.DefaultPointStyle = PointStyle.CreateSimpleCircleStyle(GeoColors.Blue, 8, GeoColors.Black);
+            featureLayer.ZoomLevelSet.ZoomLevel01.DefaultLineStyle = LineStyle.CreateSimpleLineStyle(GeoColors.Blue, 4, true);
+            featureLayer.ZoomLevelSet.ZoomLevel01.DefaultAreaStyle = AreaStyle.CreateSimpleAreaStyle(new GeoColor(40, GeoColors.Blue), GeoColors.Black);
+            featureLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
+
+            layerOverlay.Layers.Add(ShapesLayer, featureLayer);
+            MapView.Overlays.Add(ShapesOverlay, layerOverlay);
         }
 
         private void PopupOverlayInitialise()

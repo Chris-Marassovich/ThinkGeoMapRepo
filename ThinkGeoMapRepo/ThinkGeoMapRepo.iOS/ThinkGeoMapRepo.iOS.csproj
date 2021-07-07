@@ -155,4 +155,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\MapIconSmall%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\chevron_down.png" />
+  </ItemGroup>
 </Project>

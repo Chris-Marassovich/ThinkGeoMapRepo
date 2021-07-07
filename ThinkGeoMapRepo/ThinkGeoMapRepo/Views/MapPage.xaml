@@ -3,11 +3,79 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:ThinkGeoMapRepo.ViewModels"
              xmlns:xamarinforms="clr-namespace:ThinkGeo.UI.XamarinForms;assembly=ThinkGeo.UI.XamarinForms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="ThinkGeoMapRepo.Views.MapPage"
              x:DataType="viewmodels:MapPageViewModel"
              Title="{Binding Title}">
     <ContentPage.Content>
-        <xamarinforms:MapView x:Name="mapView"
-                              VerticalOptions="FillAndExpand" />
+        <StackLayout>
+            <xct:Expander>
+                <xct:Expander.Header>
+                    <StackLayout Orientation="Horizontal"
+                                 Padding="8">
+                        <Label x:Name="descriptionLabel"
+                               Text="Draw, Edit, or Delete Shapes using the InteractiveOverlay"
+                               TextColor="Black"
+                               FontSize="Subtitle"
+                               VerticalOptions="Center"
+                               HorizontalOptions="StartAndExpand" />
+                        <BoxView Color="LightGray"
+                                 WidthRequest="1"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center" />
+                        <Image Source="chevron_down.png"
+                               HeightRequest="44"
+                               VerticalOptions="Start"
+                               HorizontalOptions="End">
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image"
+                                             Binding="{Binding Source={RelativeSource AncestorType={x:Type  xct:Expander}}, Path=IsExpanded}"
+                                             Value="True">
+                                    <Setter Property="Rotation"
+                                            Value="180" />
+                                </DataTrigger>
+                            </Image.Triggers>
+                        </Image>
+                    </StackLayout>
+                </xct:Expander.Header>
+                <xct:Expander.Content>
+                    <ScrollView BackgroundColor="Black">
+                        <Grid ColumnDefinitions="5,*,5"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="0"
+                                         x:Name="navMode"
+                                         Content="Navigation Mode"
+                                         IsChecked="True"
+                                         CheckedChanged="navMode_CheckedChanged"/>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="1"
+                                         x:Name="drawPolygon"
+                                         Content="Draw Polygon" 
+                                         CheckedChanged="drawPolygon_CheckedChanged"/>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="2"
+                                         x:Name="editShape"
+                                         Content="Edit Shape" 
+                                         CheckedChanged="editShape_CheckedChanged"/>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="3"
+                                         x:Name="deleteShape"
+                                         Content="Delete Shape" 
+                                         CheckedChanged="deleteShape_CheckedChanged"/>
+
+                            <Label x:Name="instructions"
+                                   Grid.Column="1" Grid.ColumnSpan="3"
+                                   Grid.Row="4"
+                                   FontAttributes="Italic" />
+                        </Grid>
+                    </ScrollView>
+                </xct:Expander.Content>
+            </xct:Expander>
+            
+            
+            <xamarinforms:MapView x:Name="mapView"
+                                  VerticalOptions="FillAndExpand" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
