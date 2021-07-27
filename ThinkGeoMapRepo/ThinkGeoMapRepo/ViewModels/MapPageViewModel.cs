@@ -57,6 +57,7 @@ namespace ThinkGeoMapRepo.ViewModels
 
                     // Create a new overlay that will hold our new layer and add it to the map and set the tile size to match up with the OSM til size.
                     var layerOverlay = new LayerOverlay();
+                    layerOverlay.TileType = TileType.SingleTile;
                     MapView.Overlays.Add(layerOverlay);
 
                     var openStreetMapLayer = new OpenStreetMapLayer();
