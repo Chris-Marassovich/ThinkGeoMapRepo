@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:ThinkGeoMapRepo.Views"
+       xmlns:fontawesome="clr-namespace:FontAwesome"
        Title="ThinkGeoMapRepo"
        x:Class="ThinkGeoMapRepo.AppShell">
 
@@ -81,10 +82,18 @@
     <FlyoutItem Route="main"
                 FlyoutDisplayOptions="AsMultipleItems"
                 Title="FlyoutItems">
-        <ShellContent Route="AboutPage" 
+        <!--<ShellContent Route="AboutPage" 
                       Title="About"
                       Icon="icon_about.png"
-                      ContentTemplate="{DataTemplate local:AboutPage}" />
+                      ContentTemplate="{DataTemplate local:AboutPage}" />-->
+        <ShellContent Route="AboutPage"
+                      Title="About"
+                      ContentTemplate="{DataTemplate local:AboutPage}">
+            <ShellContent.Icon>
+                <FontImageSource Glyph="{x:Static fontawesome:FontAwesomeIcons.Coffee}"
+                                 FontFamily="FA-S" Size="Small"/>
+            </ShellContent.Icon>
+        </ShellContent>
         <ShellContent Route="MapPage"
                       Title="Map"
                       Icon="MapIconSmall.png"
