@@ -135,7 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ThinkGeo.UI.XamarinForms.iOS">
-      <Version>12.3.10</Version>
+      <Version>12.3.11</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
