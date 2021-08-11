@@ -9,12 +9,22 @@
     <None Remove="Resources\Fonts\Font Awesome 5 Brands-Regular-400.otf" />
     <None Remove="Resources\Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <None Remove="Resources\Fonts\Font Awesome 5 Free-Solid-900.otf" />
+    <None Remove="Resources\PinTarget.png" />
+    <None Remove="Resources\PinTargetLocation.png" />
+	<None Remove="Resources\PinTargetPerson.png" />
+    <None Remove="Resources\PinTargetVehicle.png" />
+	<None Remove="Resources\PinTeam.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 5 Brands-Regular-400.otf" />
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <EmbeddedResource Include="Resources\Fonts\Font Awesome 5 Free-Solid-900.otf" />
+    <EmbeddedResource Include="Resources\PinTarget.png" />
+    <EmbeddedResource Include="Resources\PinTargetLocation.png" />
+	<EmbeddedResource Include="Resources\PinTargetPerson.png" />
+    <EmbeddedResource Include="Resources\PinTargetVehicle.png" />
+	<EmbeddedResource Include="Resources\PinTeam.png" />
   </ItemGroup>
 
   <ItemGroup>

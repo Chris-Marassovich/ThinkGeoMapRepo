@@ -44,6 +44,9 @@ namespace ThinkGeoMapRepo.Views
             // Update the layer's features from any previous mode
             UpdateShapeLayerFeatures(shapesLayer, shapesOverlay);
 
+            // Add the event handler that will allow map taps on features
+            ManageTapEventSubscription(MapTapMode.Popup);
+
             // Set TrackMode to None, so that the user will no longer draw shapes and will be able to navigate the map normally
             mapView.TrackOverlay.TrackMode = TrackMode.None;
 
@@ -59,6 +62,9 @@ namespace ThinkGeoMapRepo.Views
 
             // Update the layer's features from any previous mode
             UpdateShapeLayerFeatures(shapeLayer, shapeOverlay);
+
+            // Add the event handler that will allow drawing map taps
+            ManageTapEventSubscription(MapTapMode.Drawing);
 
             // Set TrackMode to Polygon, which draws a new polygon on the map on touch. Double taps to finish drawing the polygon.
             mapView.TrackOverlay.TrackMode = TrackMode.Polygon;
@@ -77,6 +83,9 @@ namespace ThinkGeoMapRepo.Views
 
             // Update the layer's features from any previous mode
             UpdateShapeLayerFeatures(shapeLayer, shapeOverlay);
+
+            // Add the event handler that will allow drawing map taps
+            ManageTapEventSubscription(MapTapMode.Drawing);
 
             // Set TrackMode to None, so that the user will no longer draw shapes
             mapView.TrackOverlay.TrackMode = TrackMode.None;
@@ -117,7 +126,7 @@ namespace ThinkGeoMapRepo.Views
             mapView.TrackOverlay.TrackMode = TrackMode.None;
 
             // Add the event handler that will delete features on map tap
-            mapView.MapSingleTap += MapView_SingleTapDeleteMode;
+            ManageTapEventSubscription(MapTapMode.Delete);
 
             // Update instructions
             instructions.Text = "Delete Shape Mode - Deletes a shape by tapping on the shape.";
@@ -150,11 +159,35 @@ namespace ThinkGeoMapRepo.Views
             mapView.TrackOverlay.Refresh();
             mapView.EditOverlay.Refresh();
             layerOverlay.Refresh();
-
-            // In case the user was in Delete Mode, remove the event handler to avoid deleting features unintentionally
-            mapView.MapSingleTap -= MapView_SingleTapDeleteMode;
         }
 
+        #region MAP TAP EVENTS
+        enum MapTapMode
+        {
+            Popup = 1,
+            Delete = 2,
+            Drawing = 3
+        }
+
+        private void ManageTapEventSubscription(MapTapMode mapTapMode)
+        {
+            switch (mapTapMode)
+            {
+                case MapTapMode.Popup:
+                    mapView.MapSingleTap -= MapView_SingleTapDeleteMode;
+                    mapView.MapSingleTap += MapView_SingleTapFeaturePopupMode;
+                    break;
+                case MapTapMode.Delete:
+                    mapView.MapSingleTap += MapView_SingleTapDeleteMode;
+                    mapView.MapSingleTap -= MapView_SingleTapFeaturePopupMode;
+                    break;
+                case MapTapMode.Drawing:
+                default:
+                    mapView.MapSingleTap -= MapView_SingleTapDeleteMode;
+                    mapView.MapSingleTap -= MapView_SingleTapFeaturePopupMode;
+                    break;
+            }
+        }
         /// <summary>
         /// Event handler that finds the nearest feature and removes it from the shapeLayer
         /// </summary>
@@ -175,5 +208,16 @@ namespace ThinkGeoMapRepo.Views
                 shapeOverlay.Refresh();
             }
         }
+
+        /// <summary>
+        /// Event Handler for user tapping on features to get a popup.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MapView_SingleTapFeaturePopupMode(object sender, TouchMapViewEventArgs e)
+        {
+            _viewModel.OnMapView_MapSingleTap(sender, e);
+        }
+        #endregion
     }
 }
