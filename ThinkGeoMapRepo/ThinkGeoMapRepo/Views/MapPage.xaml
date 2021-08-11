@@ -75,7 +75,8 @@
             
             
             <xamarinforms:MapView x:Name="mapView"
-                                  VerticalOptions="FillAndExpand" />
+                                  VerticalOptions="FillAndExpand"
+                                  MapSingleTap="MapView_SingleTapFeaturePopupMode"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
