@@ -1,11 +1,13 @@
 ﻿using GeoJSON.Net.Geometry;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ThinkGeo.Core;
 using ThinkGeo.UI.XamarinForms;
+using ThinkGeoMapRepo.Services;
 
 namespace ThinkGeoMapRepo.ViewModels
 {
@@ -133,23 +135,33 @@ namespace ThinkGeoMapRepo.ViewModels
             }
 
             //Add a simple Point Style for now
-            var pointStyle = new PointStyle(PointSymbolType.Circle, 10, GeoBrushes.BrightRed, new GeoPen(GeoBrushes.White, 2));
+            PointStyle pointStyle;
+            try
+            {
+                Stream pinTargetLocationPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTargetLocation.png");
+                pointStyle = new PointStyle(new GeoImage(pinTargetLocationPng));
+                pinTargetLocationPng?.Close();
+            }
+            catch (Exception) //Something went wrong so lets take a default PointStyle
+            {
+                pointStyle = new PointStyle(PointSymbolType.Circle, 10, GeoBrushes.BrightRed, new GeoPen(GeoBrushes.White, 2));
+            }
 
-            var pointStyleCluster = new PointStyle(PointSymbolType.Triangle, 70, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
-            var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
-            {
-                YOffsetInPixel = 1
-            };
-            var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
-            {
-                MinimumFeaturesPerCellToCluster = 2,
-                CellSize = 1000
-            };
+            //var pointStyleCluster = new PointStyle(PointSymbolType.Triangle, 70, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
+            //var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
+            //{
+            //    YOffsetInPixel = 1
+            //};
+            //var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
+            //{
+            //    MinimumFeaturesPerCellToCluster = 2,
+            //    CellSize = 1000
+            //};
 
             locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            //locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
             //clusterPointStyle.CustomStyles.Add(pointStyle);
-            locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
+            //locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
             locationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             return locationLayer;
@@ -175,22 +187,34 @@ namespace ThinkGeoMapRepo.ViewModels
             }
 
             //Add a simple Point Style for now
-            var pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
+            PointStyle pointStyle;
+            try
+            {
+                Stream pinTeamPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTeam.png");
+                pointStyle = new PointStyle(new GeoImage(pinTeamPng));
+                pinTeamPng?.Close();
+            }
+            catch (Exception) //Something went wrong so lets take a default PointStyle
+            {
+                pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
+            }
+            
+            //var pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));//
 
-            var pointStyleCluster = new PointStyle(PointSymbolType.Circle, 30, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
-            var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
-            {
-                YOffsetInPixel = 1
-            };
-            var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
-            {
-                MinimumFeaturesPerCellToCluster = 2,
-                CellSize = 1000
-            };
+            //var pointStyleCluster = new PointStyle(PointSymbolType.Circle, 30, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
+            //var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
+            //{
+            //    YOffsetInPixel = 1
+            //};
+            //var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
+            //{
+            //    MinimumFeaturesPerCellToCluster = 2,
+            //    CellSize = 1000
+            //};
 
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            //teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
-            teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
+            teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            //teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             return teamMemberDeviceLayer;
@@ -213,5 +237,62 @@ namespace ThinkGeoMapRepo.ViewModels
 
             return pointShape;
         }
+
+        #region MAP TAPPED STUFF
+        public void OnMapView_MapSingleTap(object sender, ThinkGeo.UI.XamarinForms.TouchMapViewEventArgs e)
+        {
+            Feature selectedFeature = GetFeatureFromLocation(e.PointInWorldCoordinate);
+            if (selectedFeature != null)
+            {
+                DisplayFeatureInfo(selectedFeature);
+            }
+        }
+
+        private Feature GetFeatureFromLocation(PointShape location)
+        {
+            InMemoryFeatureLayer nearbyFeaturesLayer = new InMemoryFeatureLayer();
+            Collection<Feature> featuresWithinClick;
+            Collection<Feature> nearestfeatures;
+
+            FeatureLayer locationLayer = MapView.FindFeatureLayer(LocationLayer);
+            locationLayer.Open();
+            featuresWithinClick = locationLayer.QueryTools.GetFeaturesWithinDistanceOf(location, GeographyUnit.Meter, DistanceUnit.Meter, 20, ReturningColumnsType.AllColumns);
+            locationLayer.Close();
+            nearbyFeaturesLayer.Open();
+            foreach (var item in featuresWithinClick)
+            {
+                nearbyFeaturesLayer.InternalFeatures.Add(item.Id, item);
+            }
+            featuresWithinClick.Clear();
+            FeatureLayer teamMemberDeviceLayer = MapView.FindFeatureLayer(TeamMemberDeviceLayer);
+            teamMemberDeviceLayer.Open();
+            featuresWithinClick = teamMemberDeviceLayer.QueryTools.GetFeaturesWithinDistanceOf(location, GeographyUnit.Meter, DistanceUnit.Meter, 20, ReturningColumnsType.AllColumns);
+            teamMemberDeviceLayer.Close();
+            foreach (var item in featuresWithinClick)
+            {
+                nearbyFeaturesLayer.InternalFeatures.Add(item.Id, item);
+            }
+
+            nearestfeatures = nearbyFeaturesLayer.QueryTools.GetFeaturesNearestTo(location, GeographyUnit.Meter, 1, ReturningColumnsType.AllColumns);
+            nearbyFeaturesLayer.Close();
+
+            return nearestfeatures.FirstOrDefault();
+        }
+
+        private void DisplayFeatureInfo(Feature feature)
+        {
+            PopupOverlay popupOverlay = (PopupOverlay)MapView.Overlays[JobsPopupOverlay];
+            Popup popup = new Popup()
+            {
+                Position = feature.GetShape().GetCenterPoint(),
+                Content = feature.ColumnValues[ColumnValueKeyPopupContent]
+            };
+
+            popupOverlay.Popups.Clear();
+            popupOverlay.Popups.Add(popup);
+
+            popupOverlay.Refresh();
+        }
+        #endregion
     }
 }
