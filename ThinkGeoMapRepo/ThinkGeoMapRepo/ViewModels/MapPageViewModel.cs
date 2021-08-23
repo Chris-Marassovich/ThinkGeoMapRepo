@@ -135,33 +135,34 @@ namespace ThinkGeoMapRepo.ViewModels
             }
 
             //Add a simple Point Style for now
-            PointStyle pointStyle;
-            try
-            {
-                Stream pinTargetLocationPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTargetLocation.png");
-                pointStyle = new PointStyle(new GeoImage(pinTargetLocationPng));
-                pinTargetLocationPng?.Close();
-            }
-            catch (Exception) //Something went wrong so lets take a default PointStyle
-            {
-                pointStyle = new PointStyle(PointSymbolType.Circle, 10, GeoBrushes.BrightRed, new GeoPen(GeoBrushes.White, 2));
-            }
+            //PointStyle pointStyle;
+            //try
+            //{
+            //    Stream pinTargetLocationPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTargetLocation.png");
+            //    pointStyle = new PointStyle(new GeoImage(pinTargetLocationPng));
+            //    pinTargetLocationPng?.Close();
+            //}
+            //catch (Exception) //Something went wrong so lets take a default PointStyle
+            //{
+            //    pointStyle = new PointStyle(PointSymbolType.Circle, 10, GeoBrushes.BrightRed, new GeoPen(GeoBrushes.White, 2));
+            //}
 
-            //var pointStyleCluster = new PointStyle(PointSymbolType.Triangle, 70, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
-            //var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
-            //{
-            //    YOffsetInPixel = 1
-            //};
-            //var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
-            //{
-            //    MinimumFeaturesPerCellToCluster = 2,
-            //    CellSize = 1000
-            //};
+            var pointStyleCluster = new PointStyle(PointSymbolType.Triangle, 70, GeoBrushes.DarkRed, new GeoPen(GeoBrushes.White, 2));
+            var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
+            {
+                YOffsetInPixel = 1
+            };
+            var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
+            {
+                MinimumFeaturesPerCellToCluster = 2,
+                //CellSize = 1000,
+                ClusterCellLinesVisible = true
+            };
 
             locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            //locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
             //clusterPointStyle.CustomStyles.Add(pointStyle);
-            //locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
+            locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
             locationLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             return locationLayer;
@@ -187,34 +188,35 @@ namespace ThinkGeoMapRepo.ViewModels
             }
 
             //Add a simple Point Style for now
-            PointStyle pointStyle;
-            try
-            {
-                Stream pinTeamPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTeam.png");
-                pointStyle = new PointStyle(new GeoImage(pinTeamPng));
-                pinTeamPng?.Close();
-            }
-            catch (Exception) //Something went wrong so lets take a default PointStyle
-            {
-                pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
-            }
-            
+            //PointStyle pointStyle;
+            //try
+            //{
+            //    Stream pinTeamPng = new IconService().GetIconEmbeddedResource("ThinkGeoMapRepo.Resources.PinTeam.png");
+            //    pointStyle = new PointStyle(new GeoImage(pinTeamPng));
+            //    pinTeamPng?.Close();
+            //}
+            //catch (Exception) //Something went wrong so lets take a default PointStyle
+            //{
+            //    pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
+            //}
+
             //var pointStyle = new PointStyle(PointSymbolType.Circle, 20, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));//
 
-            //var pointStyleCluster = new PointStyle(PointSymbolType.Circle, 30, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
-            //var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
-            //{
-            //    YOffsetInPixel = 1
-            //};
-            //var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
-            //{
-            //    MinimumFeaturesPerCellToCluster = 2,
-            //    CellSize = 1000
-            //};
+            var pointStyleCluster = new PointStyle(PointSymbolType.Circle, 30, GeoBrushes.Green, new GeoPen(GeoBrushes.White, 2));
+            var textStyleCluster = new TextStyle("FeatureCount", new GeoFont("Segoe UI", 12, DrawingFontStyles.Bold), GeoBrushes.White)
+            {
+                YOffsetInPixel = 1
+            };
+            var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
+            {
+                MinimumFeaturesPerCellToCluster = 2,
+                //CellSize = 1000,
+                ClusterCellLinesVisible = true
+            };
 
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
-            teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
-            //teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
+            //teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(pointStyle);
+            teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Add(clusterPointStyle);
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.ApplyUntilZoomLevel = ApplyUntilZoomLevel.Level20;
 
             return teamMemberDeviceLayer;

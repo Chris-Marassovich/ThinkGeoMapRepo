@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
-    <PackageReference Include="ThinkGeo.UI.XamarinForms" Version="12.3.11" />
+    <PackageReference Include="ThinkGeo.UI.XamarinForms" Version="12.3.12" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
