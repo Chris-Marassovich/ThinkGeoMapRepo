@@ -105,8 +105,8 @@ namespace ThinkGeoMapRepo.ViewModels
         public async void JobsOverlayInitialise()
         {
             LayerOverlay jobsOverlay = new LayerOverlay();
-            var locationLayer = await CreateLocationsLayer();
-            jobsOverlay.Layers.Add(LocationLayer, locationLayer);
+            //var locationLayer = await CreateLocationsLayer();
+            //jobsOverlay.Layers.Add(LocationLayer, locationLayer);
 
             var teamMemberDeviceLayer = await CreateTeamMemberDeviceLayer();
             jobsOverlay.Layers.Add(TeamMemberDeviceLayer, teamMemberDeviceLayer);
@@ -155,8 +155,7 @@ namespace ThinkGeoMapRepo.ViewModels
             var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
             {
                 MinimumFeaturesPerCellToCluster = 2,
-                //CellSize = 1000,
-                ClusterCellLinesVisible = true
+                CellSize = 1000,
             };
 
             locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
@@ -210,8 +209,7 @@ namespace ThinkGeoMapRepo.ViewModels
             var clusterPointStyle = new ClusterPointStyle(pointStyleCluster, textStyleCluster)
             {
                 MinimumFeaturesPerCellToCluster = 2,
-                //CellSize = 1000,
-                ClusterCellLinesVisible = true
+                CellSize = 1000,
             };
 
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
