@@ -110,6 +110,7 @@ namespace ThinkGeoMapRepo.ViewModels
 
             var teamMemberDeviceLayer = await CreateTeamMemberDeviceLayer();
             jobsOverlay.Layers.Add(TeamMemberDeviceLayer, teamMemberDeviceLayer);
+            jobsOverlay.TileType = TileType.SingleTile;//Performs better and if using clustering prevents minor UI glitches for the style.
 
             MapView.Overlays.Add(JobsOverlay, jobsOverlay);
             jobsOverlay.Refresh();
@@ -156,7 +157,6 @@ namespace ThinkGeoMapRepo.ViewModels
             {
                 MinimumFeaturesPerCellToCluster = 2,
                 //CellSize = 1000,
-                ClusterCellLinesVisible = true
             };
 
             locationLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
@@ -211,7 +211,6 @@ namespace ThinkGeoMapRepo.ViewModels
             {
                 MinimumFeaturesPerCellToCluster = 2,
                 //CellSize = 1000,
-                ClusterCellLinesVisible = true
             };
 
             teamMemberDeviceLayer.ZoomLevelSet.ZoomLevel01.CustomStyles.Clear();
